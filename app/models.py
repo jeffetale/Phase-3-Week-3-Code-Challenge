@@ -8,7 +8,7 @@ class Restaurant(Base):
     __tablename__ = 'restaurants'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String)
+    name = Column(String, nullable= False)
     price = Column(Integer)
 
     reviews = relationship('Review', back_populates= 'restaurant')
@@ -17,8 +17,8 @@ class Customer(Base):
     __tablename__ = 'customers'
 
     id = Column(Integer, primary_key=True)
-    first_name = Column(String)
-    last_name = Column(String)
+    first_name = Column(String, nullable= False)
+    last_name = Column(String, nullable= False)
 
     reviews = relationship('Review', back_populates= 'customer')
 
