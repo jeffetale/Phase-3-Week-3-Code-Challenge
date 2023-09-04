@@ -30,8 +30,8 @@ class Review(Base):
 
     id = Column(Integer, primary_key=True)
     star_rating = Column(Integer)
-    restaurant_id = Column(Integer, ForeignKey=True)
-    customer_id = Column(Integer, ForeignKey=True)
+    restaurant_id = Column(Integer, ForeignKey('restaurants.id'))
+    customer_id = Column(Integer, ForeignKey('customers.id'))
 
     restaurant = relationship('Restaurant', back_populates= 'reviews')
     customer = relationship('Customer', back_populates= 'reviews')
