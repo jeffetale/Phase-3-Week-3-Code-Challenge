@@ -1,3 +1,4 @@
+from config import session
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
@@ -12,7 +13,15 @@ class Restaurant(Base):
     price = Column(Integer)
 
     reviews = relationship('Review', back_populates= 'restaurant')
-                           
+    
+    @classmethod    
+    def fanciest(cls):
+        fanciest_restaurant = max(cls.query.all(), key=lambda restaurant: restaurant.price)
+        return fanciest_restaurant
+    
+    def all_reviews(self):
+        return [review.full_review() for review in self.reviews]
+
 class Customer(Base):
     __tablename__ = 'customers'
 
@@ -24,6 +33,23 @@ class Customer(Base):
 
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
+    
+    def favorite_restaurant(self):
+        highest_rated_review = max(self.reviews, key=lambda review: review.star_rating)
+        return highest_rated_review
+    
+    def add_review(self, restaurant, rating):
+        new_review = Review(restaurant = restaurant, customer = self, star_rating = rating)
+        session.add(new_review)
+        session.commit()
+
+    def delete_revies(self, restaurant):
+        reviews_to_delete = session.query(Review).filter_by(restaurant = restaurant, customer = self).all()
+
+        for review in reviews_to_delete:
+            session.delete(review)
+
+        session.commit()
     
 class Review(Base):
     __tablename__ = 'reviews'
