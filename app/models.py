@@ -35,17 +35,16 @@ class Customer(Base):
         return f"{self.first_name} {self.last_name}"
     
     def favorite_restaurant(self):
-        highest_rated_review = max(self.reviews, key=lambda review: review.star_rating)
-        return highest_rated_review
+        sorted_reviews = sorted(self.reviews, key=lambda review: review.star_rating, reverse=True)
+        return sorted_reviews[0].restaurant
     
     def add_review(self, restaurant, rating):
         new_review = Review(restaurant = restaurant, customer = self, star_rating = rating)
         session.add(new_review)
         session.commit()
 
-    def delete_revies(self, restaurant):
-        reviews_to_delete = session.query(Review).filter_by(restaurant = restaurant, customer = self).all()
-
+    def delete_reviews(self, restaurant):
+        reviews_to_delete = session.query(Review).filter_by(restaurant=restaurant, customer=self).all()
         for review in reviews_to_delete:
             session.delete(review)
 

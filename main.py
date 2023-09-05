@@ -16,8 +16,9 @@ if __name__ == "__main__":
     restaurant3 = Restaurant(name= 'Kibandaski', price = '50')
     
     #New review instance
-    review1 = Review(star_rating= 5, restaurant= restaurant1, customer= new_customer)
+    review1 = Review(star_rating= 4, restaurant= restaurant1, customer= new_customer)
     review2 = Review(star_rating= 3, restaurant= restaurant2, customer= new_customer_1)
+    review3 = Review(star_rating= 10, restaurant= restaurant3, customer= new_customer)
 
     # Add the customer, restaurants and reviews to the session and commit to the database
     session.add(new_customer)
@@ -28,11 +29,22 @@ if __name__ == "__main__":
     session.add(restaurant3)
     session.add(review1)
     session.add(review2)
+    session.add(review3)
     session.commit()
 
-    # Verify that the customers have been added
+    # Testing out my models and the database
     john_doe = session.query(Customer).filter_by(first_name="John", last_name="Doe").first()
     print(f"New customer ID: {john_doe.id}")
     
     gib_raltar = session.query(Customer).filter_by(first_name="Gib", last_name="Raltar").first()
     print(f"New customer ID: {gib_raltar.id}")
+
+    print(f"John Doe's full name: {john_doe.full_name()}")
+    print(f"Gib Raltar's full name: {gib_raltar.full_name()}")
+
+    favorite_restaurant = john_doe.favorite_restaurant()
+    print(f"{john_doe.full_name()}'s favorite restaurant: {favorite_restaurant.name}")
+
+    # Delete reviews for a restaurant
+    john_doe.delete_reviews(restaurant1)
+
