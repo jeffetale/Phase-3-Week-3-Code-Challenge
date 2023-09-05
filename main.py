@@ -9,6 +9,7 @@ if __name__ == "__main__":
     new_customer = Customer(first_name="John", last_name="Doe")
     new_customer_1 = Customer(first_name="Gib", last_name="Raltar")
     new_customer_2 = Customer(first_name="Wraith", last_name="Valkyrie")
+    new_customer_3 = Customer(first_name="Blood", last_name="Hound")
 
     #New restaurant instance
     restaurant1 = Restaurant(name='Kwa Mathe', price = '200')
@@ -24,6 +25,7 @@ if __name__ == "__main__":
     session.add(new_customer)
     session.add(new_customer_1)
     session.add(new_customer_2)
+    session.add(new_customer_3)
     session.add(restaurant1)
     session.add(restaurant2)
     session.add(restaurant3)
@@ -38,6 +40,9 @@ if __name__ == "__main__":
     
     gib_raltar = session.query(Customer).filter_by(first_name="Gib", last_name="Raltar").first()
     print(f"New customer ID: {gib_raltar.id}")
+
+    blood_hound = session.query(Customer).filter_by(first_name="Blood", last_name="Hound").first()
+    print(f"New customer ID: {blood_hound.id}")
 
     print(f"John Doe's full name: {john_doe.full_name()}")
     print(f"Gib Raltar's full name: {gib_raltar.full_name()}")
