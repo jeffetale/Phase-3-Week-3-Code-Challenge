@@ -5,6 +5,13 @@ if __name__ == "__main__":
     # Import models
     from app.models import Restaurant, Customer, Review
 
+    # Delete all records from the Restaurant, Customer, and Review tables on each run
+    session.query(Restaurant).delete()
+    session.query(Customer).delete()
+    session.query(Review).delete()
+
+    session.commit()
+
     # New customer instance
     new_customer = Customer(first_name="John", last_name="Doe")
     new_customer_1 = Customer(first_name="Gib", last_name="Raltar")
